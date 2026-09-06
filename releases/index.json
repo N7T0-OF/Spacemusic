@@ -2,5 +2,20 @@
   "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release-index.schema.json",
   "schemaVersion": "0.1",
   "moduleId": "spacemusic",
-  "releases": []
+  "releases": [
+    {
+      "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release.schema.json",
+      "schemaVersion": "0.1",
+      "moduleId": "spacemusic",
+      "version": "0.1.0",
+      "status": "published",
+      "compatibility": {
+        "minConvxVersion": "1.5.2",
+        "maxConvxVersion": null
+      },
+      "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.0/SpaceMusic-0.1.0.smod",
+      "sha256": "8d7892cc27aa1b7b3760ec32d7d5fe5149e2deb3863f7e4529593403a4497859",
+      "notes": "SpaceMusic 0.1.0 declarative module for the Convx module host."
+    }
+  ]
 }

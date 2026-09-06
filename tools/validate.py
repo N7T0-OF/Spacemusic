@@ -497,13 +497,17 @@ def mutation_checks(root: Path) -> int:
     expect_rejected(root, {"module/module.json": invalid}, "module ID mismatch")
 
     release = read_json(root / "releases/0.1.0/release.json")
-    invalid = copy.deepcopy(release)
+    # Negative cases are built from a canonical draft so they reject regardless
+    # of whether the repository itself is currently draft or published.
+    draft_release = copy.deepcopy(release)
+    draft_release.update({"status": "draft", "artifact": None, "sha256": None})
+    invalid = copy.deepcopy(draft_release)
     invalid["status"] = "published"
     expect_rejected(root, {"releases/0.1.0/release.json": invalid}, "published release without artifact")
 
     index = read_json(root / "releases/index.json")
     invalid = copy.deepcopy(index)
-    invalid["releases"] = [copy.deepcopy(release)]
+    invalid["releases"] = [copy.deepcopy(draft_release)]
     expect_rejected(root, {"releases/index.json": invalid}, "draft release in index")
 
     published = copy.deepcopy(release)

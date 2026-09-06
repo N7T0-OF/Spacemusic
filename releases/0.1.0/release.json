@@ -3,12 +3,12 @@
   "schemaVersion": "0.1",
   "moduleId": "spacemusic",
   "version": "0.1.0",
-  "status": "draft",
+  "status": "published",
   "compatibility": {
     "minConvxVersion": "1.5.2",
     "maxConvxVersion": null
   },
-  "artifact": null,
-  "sha256": null,
-  "notes": "Initial declarative scaffold; publish after packaging and hashing."
+  "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.0/SpaceMusic-0.1.0.smod",
+  "sha256": "8d7892cc27aa1b7b3760ec32d7d5fe5149e2deb3863f7e4529593403a4497859",
+  "notes": "SpaceMusic 0.1.0 declarative module for the Convx module host."
 }
