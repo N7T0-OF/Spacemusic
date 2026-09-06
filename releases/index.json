@@ -16,6 +16,20 @@
       "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.0/SpaceMusic-0.1.0.smod",
       "sha256": "8d7892cc27aa1b7b3760ec32d7d5fe5149e2deb3863f7e4529593403a4497859",
       "notes": "SpaceMusic 0.1.0 declarative module for the Convx module host."
+    },
+    {
+      "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release.schema.json",
+      "schemaVersion": "0.1",
+      "moduleId": "spacemusic",
+      "version": "0.1.1",
+      "status": "published",
+      "compatibility": {
+        "minConvxVersion": "1.5.2",
+        "maxConvxVersion": null
+      },
+      "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.1/SpaceMusic-0.1.1.smod",
+      "sha256": "d4f9fe60fcd7873f7197d46681c044f70c280319bde413855c294679863cf368",
+      "notes": "SpaceMusic 0.1.1: same declarative contract as 0.1.0, released as the upgrade target for the Convx module host. Device-verified on API 29: installs over 0.1.0 preserving enable state; downgrades rejected."
     }
   ]
 }
