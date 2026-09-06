@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/module.schema.json",
+  "schemaVersion": "0.1",
+  "moduleId": "spacemusic",
+  "contributions": {
+    "settings": {
+      "section": "SpaceMusic",
+      "icon": "assets/icon.svg",
+      "actions": [
+        {
+          "id": "check-updates",
+          "label": "Check for updates",
+          "action": "check-updates"
+        }
+      ]
+    }
+  }
+}

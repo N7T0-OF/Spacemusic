@@ -1,0 +1,24 @@
+{
+  "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/manifest.schema.json",
+  "schemaVersion": "0.1",
+  "id": "spacemusic",
+  "name": "SpaceMusic",
+  "version": "0.1.0",
+  "type": "declarative",
+  "description": "A declarative music module for the Convx Module Runtime.",
+  "author": "N7T0-OF",
+  "compatibility": {
+    "minConvxVersion": "1.5.2",
+    "maxConvxVersion": null
+  },
+  "permissions": [
+    "settings"
+  ],
+  "content": {
+    "module": "module/module.json",
+    "icon": "assets/icon.svg"
+  },
+  "updates": {
+    "releaseIndex": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/releases/index.json"
+  }
+}

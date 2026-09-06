@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release-index.schema.json",
+  "title": "SpaceMusic release index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "moduleId",
+    "releases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaVersion": {
+      "const": "0.1"
+    },
+    "moduleId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,63}$"
+    },
+    "releases": {
+      "type": "array",
+      "items": {
+        "$ref": "release.schema.json"
+      }
+    }
+  }
+}

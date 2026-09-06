@@ -1,0 +1,6 @@
+{
+  "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release-index.schema.json",
+  "schemaVersion": "0.1",
+  "moduleId": "spacemusic",
+  "releases": []
+}

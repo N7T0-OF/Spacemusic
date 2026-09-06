@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release.schema.json",
+  "schemaVersion": "0.1",
+  "moduleId": "spacemusic",
+  "version": "0.1.0",
+  "status": "draft",
+  "compatibility": {
+    "minConvxVersion": "1.5.2",
+    "maxConvxVersion": null
+  },
+  "artifact": null,
+  "sha256": null,
+  "notes": "Initial declarative scaffold; publish after packaging and hashing."
+}
