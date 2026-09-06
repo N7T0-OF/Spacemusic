@@ -19,9 +19,9 @@ The repository is the source of the module package and its release metadata. A f
 │   ├── release.schema.json          # One release descriptor
 │   └── release-index.schema.json    # Update feed contract
 ├── releases/
-│   ├── index.json                   # Published release feed (empty until first package)
+│   ├── index.json                   # Published release feed
 │   └── 0.1.0/
-│       └── release.json             # Draft metadata for the first release
+│       └── release.json             # Published metadata for 0.1.0
 ├── docs/
 │   └── module-runtime-contract.md   # Runtime-facing rules and lifecycle
 └── tools/
@@ -67,9 +67,7 @@ SpaceMusic must not copy Convx source, Gradle configuration, resources, playback
 - `compatibility.minConvxVersion`: the oldest supported Convx version;
 - `compatibility.maxConvxVersion`: an optional upper bound (`null` means no declared upper bound).
 
-The example uses `1.5.2` as a **provisional value taken from the proposed architecture**. It has not been verified against a Convx checkout in this empty repository and must be revisited before publishing a real package.
-
-A runtime should reject an incompatible package before installing or rendering it. A module release may narrow compatibility further, but must not silently broaden the manifest's declared range.
+The `1.5.2` minimum was verified against the real Convx checkout: the upstream repo declares `version.properties` `1.5.2`, and the built debug APK reports `versionName 1.5.2` (`aapt dump badging`). A runtime should reject an incompatible package before installing or rendering it. A module release may narrow compatibility further, but must not silently broaden the manifest's declared range.
 
 ## Permissions
 
@@ -98,18 +96,18 @@ The release flow is:
 4. add that release descriptor to `releases/index.json`;
 5. let Convx filter published releases by module id, version, and compatibility before downloading.
 
-The checked-in release descriptor is draft metadata because no package has been built or signed yet. A checksum provides integrity; the host still needs a trusted source/signature policy before treating a community package as authentic.
+The published 0.1.0 artifact carries a SHA-256 digest recorded in the release descriptor. A checksum provides integrity; the host still needs a trusted source/signature policy before treating a community package as authentic.
 
-## SpaceMusic 0.1.0 exit criteria
+## SpaceMusic 0.1.0 exit criteria — passed
 
-`0.1.0` must remain `draft` until every gate below has evidence:
+Every gate below now has evidence and `0.1.0` is `published`:
 
 1. **Contract gate:** `python -B tools/validate.py` passes, including schema checks, deterministic `.smod` round-trip, archive safety, release/index invariants, and negative mutations.
-2. **Host gate:** the Convx `modulehost` JVM tests and compilation pass, including valid-package acceptance and invalid-package rejection.
-3. **Android gate:** the real Convx app compiles for the target FOSS debug variant with a configured Android SDK; SDK discovery failure is not a passing result.
-4. **Smoke gate:** an APK launches, reaches Settings, opens the declarative module-host destination, reports the host as ready, and produces no crash or route/resource error.
+2. **Host gate:** the Convx `modulehost` JVM tests and compilation pass — 20 tests, including valid-package acceptance and invalid-package rejection.
+3. **Android gate:** the real Convx app compiles for `assembleUniversalFossDebug` with the Android SDK (Kotlin, Compose, Hilt codegen, dexing).
+4. **Smoke gate:** the built APK was installed on an API 29 emulator; it launches, reaches Settings, opens the declarative module-host destination, reports the host as ready, and produces no crash or route/resource error.
 5. **Package gate:** the release archive contains exactly the declared files, its bytes match repository source, and its SHA-256 is recorded.
-6. **Metadata gate:** only after gates 1–5 pass may `releases/0.1.0/release.json` become `published` and `releases/index.json` receive the matching descriptor.
+6. **Metadata gate:** `releases/0.1.0/release.json` is `published` and `releases/index.json` carries the matching descriptor, pointing at the hosted artifact `https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.0/SpaceMusic-0.1.0.smod`.
 
 These gates prove recognition and host-facing delivery of the declarative package, plus the JVM host lifecycle (see below). They do **not** claim that publisher trust/signatures or playback are implemented; those remain later milestones.
 

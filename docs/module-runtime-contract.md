@@ -64,7 +64,7 @@ Compatibility is evaluated twice:
 - the installed manifest states the module's supported Convx range;
 - each release descriptor may narrow that range for a particular artifact.
 
-The release must not be offered when its minimum is newer than the running Convx version or its maximum is older than it. The provisional minimum `1.5.2` comes from the project proposal and is not verified in this empty checkout.
+The release must not be offered when its minimum is newer than the running Convx version or its maximum is older than it. The `1.5.2` minimum matches the real Convx checkout (`version.properties` and the built APK's `versionName`).
 
 ## Independent update protocol
 
@@ -81,7 +81,7 @@ For a published release, `releases/index.json` contains release descriptors with
 
 The Convx `modulehost` Gradle module implements this flow in JVM code (covered by its test suite): it fetches nothing itself but parses the feed, ignores drafts and incompatible releases, selects the newest supported version (`ModuleUpdater`), verifies the declared SHA-256 digest (`ModuleIntegrity`), validates the package, and installs it atomically with a rollback point (`ModuleStore` + `install`/`rollback`). Digest verification is integrity checking, not publisher authentication; a trusted source or signature policy remains a host responsibility and is not implemented.
 
-The checked-in `releases/0.1.0/release.json` is intentionally `draft` and has no artifact or digest. It is a template for the first real package release.
+The checked-in `releases/0.1.0/release.json` is `published` and records the hosted artifact URL and SHA-256 digest: `https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.0/SpaceMusic-0.1.0.smod` (digest `8d7892cc27aa1b7b3760ec32d7d5fe5149e2deb3863f7e4529593403a4497859`). The index carries the matching descriptor.
 
 ## Versioning boundary
 
