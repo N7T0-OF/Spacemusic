@@ -23,7 +23,7 @@ SCHEMA_FILES = ("manifest.schema.json", "module.schema.json", "release.schema.js
 DATA_SCHEMAS = {"manifest.json": "manifest.schema.json", "module/module.json": "module.schema.json", "releases/index.json": "release-index.schema.json"}
 PACKAGE_FILES = frozenset(("manifest.json", "module/module.json", "assets/icon.svg"))
 DOS_DIRECTORY_ATTRIBUTE = 0x10
-IGNORED_DIRS = frozenset((".freebuff", ".git", "__pycache__"))
+IGNORED_DIRS = frozenset((".freebuff", ".git", "__pycache__", "staging"))
 EXTERNAL_LINK_DIRS = frozenset(("Convx-main",))
 FORBIDDEN_SUFFIXES = frozenset((".kt", ".java", ".gradle", ".kts", ".dex", ".jar", ".class", ".pyc", ".apk", ".aab", ".so"))
 ID_RE = re.compile(r"^[a-z][a-z0-9-]{2,63}$")
@@ -51,6 +51,9 @@ def ignored(path: Path, root: Path) -> bool:
     relative = path.relative_to(root)
     if IGNORED_DIRS.intersection(relative.parts):
         return True
+    # staging/ is an out-of-repository delivery area: host debug APKs and
+    # release-candidate .smod bytes are parked there for sideloading, never as
+    # SpaceMusic package input or repository content.
     # The optional Convx checkout is exposed through a workspace junction; it
     # is a separate repository and must not become SpaceMusic package input.
     if not relative.parts or relative.parts[0] not in EXTERNAL_LINK_DIRS:
@@ -510,11 +513,26 @@ def mutation_checks(root: Path) -> int:
     invalid["releases"] = [copy.deepcopy(draft_release)]
     expect_rejected(root, {"releases/index.json": invalid}, "draft release in index")
 
-    published = copy.deepcopy(release)
-    published.update({"status": "published", "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.0/SpaceMusic-0.1.0.smod", "sha256": "0" * 64})
-    valid_index = copy.deepcopy(index)
-    valid_index["releases"] = [copy.deepcopy(published)]
-    RepositoryValidator(root, {"releases/0.1.0/release.json": published, "releases/index.json": valid_index}).run()
+    # Prove a fully published lifecycle is accepted in memory, whatever the
+    # repository's own draft/published mix and however many published releases
+    # already exist: every local descriptor is canonicalized to published and
+    # the index lists them all.
+    published_overrides: Dict[str, Any] = {}
+    published_index = copy.deepcopy(index)
+    published_index["releases"] = []
+    for path in sorted((root / "releases").glob("*/release.json")):
+        descriptor = read_json(path)
+        version = descriptor["version"]
+        canonical = copy.deepcopy(descriptor)
+        canonical.update({
+            "status": "published",
+            "artifact": f"https://github.com/N7T0-OF/Spacemusic/releases/download/v{version}/SpaceMusic-{version}.smod",
+            "sha256": "0" * 64,
+        })
+        published_overrides[path.relative_to(root).as_posix()] = canonical
+        published_index["releases"].append(canonical)
+    published_overrides["releases/index.json"] = published_index
+    RepositoryValidator(root, published_overrides).run()
 
     ordering = ["1.0.0-alpha", "1.0.0-alpha.1", "1.0.0-beta", "1.0.0", "1.0.1"]
     parsed = [parse_version(value, "test version") for value in ordering]
