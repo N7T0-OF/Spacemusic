@@ -30,6 +30,20 @@
       "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.1.1/SpaceMusic-0.1.1.smod",
       "sha256": "d4f9fe60fcd7873f7197d46681c044f70c280319bde413855c294679863cf368",
       "notes": "SpaceMusic 0.1.1: same declarative contract as 0.1.0, released as the upgrade target for the Convx module host. Device-verified on API 29: installs over 0.1.0 preserving enable state; downgrades rejected."
+    },
+    {
+      "$schema": "https://raw.githubusercontent.com/N7T0-OF/Spacemusic/main/schemas/release.schema.json",
+      "schemaVersion": "0.1",
+      "moduleId": "spacemusic",
+      "version": "0.2.0",
+      "status": "published",
+      "compatibility": {
+        "minConvxVersion": "1.5.2",
+        "maxConvxVersion": null
+      },
+      "artifact": "https://github.com/N7T0-OF/Spacemusic/releases/download/v0.2.0/SpaceMusic-0.2.0.smod",
+      "sha256": "388a9a53641304c70e9ff0c0ea46332d9fb37e5dcd803e9ce12da9adb31bf831",
+      "notes": "SpaceMusic 0.2.0: same declarative contract as 0.1.x, released as a verification-milestone version marking the end-to-end device proof of the module host flow (install, enable/disable, remove with independent hit target, live update feed, restart persistence). Semver-minor bump gives the host updater its first real in-the-wild upgrade target above 0.1.1."
     }
   ]
 }
